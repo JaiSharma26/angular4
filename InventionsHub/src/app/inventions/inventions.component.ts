@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule }   from '@angular/forms'; 
+import { Invention } from './inventions.class';
 
-export class Invention {
-	name: String;
-	inventor: String;
-	year: String;
-}
-
+// import the service class 
+import { InventionsService } from './inventions.service'; 
 
 @Component({
   selector: 'app-inventions',
   templateUrl: './inventions.component.html',
-  styleUrls: ['./inventions.component.css']
+  styleUrls: ['./inventions.component.css'],
+  providers: [ InventionsService ]
 })
 export class InventionsComponent implements OnInit {
 	
@@ -20,25 +19,16 @@ export class InventionsComponent implements OnInit {
 	inventions: Invention[];
 	
 
-  constructor() { 
+  constructor( private inventionsService : InventionsService ) { 
 	
 	//Initialize model value to blank
 	
 	this.nameModel = '';
 	this.inventorModel = '';
 	this.yearModel = '';
-  
-  //Create a default inventions to show when component renders on screen
-  
-  let defaultInventions: Invention = {
-	  name: 'C Programming Language',
-	  inventor: 'Dennis Richie',
-	  year: '1972'
-  }
-  
-  //add the inventions to inventions array
-  
-  this.inventions = [defaultInventions];
+	
+	// consuming the service method getInventions() to fetch default inventions 
+    this.inventions = inventionsService.getInventions();
   
   } //end constructor
   
@@ -59,7 +49,7 @@ export class InventionsComponent implements OnInit {
 	  
 	 this.inventions.push( newInvention );
 	 
-	 this.nameModel = this.yearModel = this.yearModel = '';
+	 this.nameModel = this.inventorModel = this.yearModel = '';
 	  
   }
 
