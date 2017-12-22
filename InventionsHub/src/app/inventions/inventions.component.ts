@@ -5,31 +5,35 @@ import { Invention } from './inventions.class';
 // import the service class 
 import { InventionsService } from './inventions.service'; 
 
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-inventions',
   templateUrl: './inventions.component.html',
   styleUrls: ['./inventions.component.css'],
-  providers: [ InventionsService ]
+  providers: []
 })
 export class InventionsComponent implements OnInit {
 	
-	nameModel: String;
-	inventorModel: String;
-	yearModel: String;
-	inventions: Invention[];
+	
+	  nameModel : String; 
+	  inventorModel : String; 
+	  yearModel : String; 
+	  detailsModel : String; 
+	  inventions : Invention[]; 
+	  totalInventions : number; 
 	
 
-  constructor( private inventionsService : InventionsService ) { 
-	
-	//Initialize model value to blank
+  constructor( private inventionsService : InventionsService, private router: Router  ) { 
 	
 	this.nameModel = '';
-	this.inventorModel = '';
-	this.yearModel = '';
+    this.inventorModel = '';
+    this.yearModel = '';
+    this.detailsModel = '';
+    // consuming the service method getInventions() to fetch default inventions 
+    this.inventions = inventionsService.getInventions(); 
+    this.totalInventions = this.inventions.length; 
 	
-	// consuming the service method getInventions() to fetch default inventions 
-    this.inventions = inventionsService.getInventions();
-  
   } //end constructor
   
   
@@ -40,17 +44,27 @@ export class InventionsComponent implements OnInit {
   createInvention() {
 	  
 	  //Initialize a new invention using data coming from template 
-	  
+	  this.totalInventions += 1; 
 	  let newInvention : Invention = {
+		  id : this.getId(),
 		  name: this.nameModel,
 		  inventor: this.inventorModel,
-		  year: this.yearModel
+		  year: this.yearModel,
+		  details : this.detailsModel
 	  };
 	  
 	 this.inventions.push( newInvention );
 	 
 	 this.nameModel = this.inventorModel = this.yearModel = '';
 	  
+  }
+  
+   details( id ) {
+     this.router.navigate(['/details' , id ]);
+  }
+  
+  getId() { 
+    return this.totalInventions ; 
   }
 
 }

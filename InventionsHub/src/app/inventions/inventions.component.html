@@ -10,14 +10,17 @@
 -->
 
 <!-- use *ngFor to iterate through array of inventions and print information about them -->
-<div class="container">
-<li *ngFor="let i of inventions">
+
+
+
+<div *ngFor="let i of inventions">
     <div class="invention">
         <span> <b> Name: </b>  {{ i.name }}  || </span>
         <span>  <b> Inventor: </b>  {{ i.inventor }}  || </span>
         <span>  <b> Year: </b> {{ i.year }}  </span>
+        <span> <button class="btn btn-primary" (click)="details(i.id)"> details </button> </span>
     </div>
-</li>
+</div>
 
 
 
@@ -45,13 +48,15 @@
     <div>
         <input [(ngModel)]="yearModel" placeholder="year" class="form-control">
     </div>
-
+    <hr>
+    <div>
+        <textarea type="textarea" rows="4" cols="20" [(ngModel)]="detailsModel" placeholder="details" class="form-control">
+        </textarea>
+    </div>
     <br>
 
     <!-- call the createInvention() function from component on click of button -->
     <!-- note the use of parenthesis for the click event -->
     <button class="btn btn-primary" (click)="createInvention()"> create invention </button>
 
-</div>
-
-</div>
+</div> 
